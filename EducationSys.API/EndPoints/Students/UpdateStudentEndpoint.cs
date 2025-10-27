@@ -17,7 +17,7 @@ namespace EducationSys.API.EndPoints.Students
 
         public override void Configure()
         {
-            Put("/students/{id:int}");
+            Put("/students/{id}");
             AllowAnonymous();
         }
 
@@ -29,6 +29,9 @@ namespace EducationSys.API.EndPoints.Students
                 LastName = req.LastName,
                 Age = req.Age
             });
+
+
+         
 
             await Send.OkAsync(result, ct);
         }

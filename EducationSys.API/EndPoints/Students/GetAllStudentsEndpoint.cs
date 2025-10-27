@@ -6,7 +6,7 @@ using FastEndpoints;
 
 namespace EducationSys.API.EndPoints.Students
 {
-    public class GetAllStudentsEndpoint : Endpoint<QueryParams, ApiResponse<PageList<StudentDto>>>
+    public class GetAllStudentsEndpoint : EndpointWithoutRequest<ApiResponse<PageList<StudentDto>>>
     {
         private readonly IStudentService _studentService;
 
@@ -22,9 +22,18 @@ namespace EducationSys.API.EndPoints.Students
             
         }
 
-        public override async Task HandleAsync(QueryParams req, CancellationToken ct) { 
-         
-            var result =  _studentService.GetAllStudentsAsync(req); 
+        public override async Task HandleAsync(CancellationToken ct) {
+            var queryParams = new QueryParams
+            {
+                SearchTerm = Query<string?>("SearchTerm", isRequired: false),
+                PageNumber = Query<int>("PageNumber", isRequired: false),
+                PageSize = Query<int>("PageSize", isRequired: false)
+            };
+
+            if (queryParams.PageNumber <= 0) queryParams.PageNumber = 1;
+            if (queryParams.PageSize <= 0) queryParams.PageSize = 10;
+
+            var result =  _studentService.GetAllStudentsAsync(queryParams); 
 
             await Send.OkAsync(result, cancellation: ct); 
         }

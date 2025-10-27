@@ -2,6 +2,7 @@
 using FluentValidation;
 using EducationSys.Application.Interfaces;
 using EducationSys.Application.Services;
+using System.Runtime.Intrinsics.X86;
 
 namespace EducationSys.Application.DependencyInjection
 {
@@ -11,6 +12,8 @@ namespace EducationSys.Application.DependencyInjection
         {
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<IEnrollmentService, EnrollmentService>();
+            services.AddScoped<IMarkService, MarkService>();
 
 
 

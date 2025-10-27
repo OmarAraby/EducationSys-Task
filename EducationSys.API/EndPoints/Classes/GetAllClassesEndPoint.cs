@@ -2,11 +2,13 @@
 using EducationSys.Application.Helpers.GeneralResult;
 using EducationSys.Application.Helpers.Pagination;
 using EducationSys.Application.Interfaces;
+using EducationSys.Domain.Entities;
 using FastEndpoints;
+using System;
 
 namespace EducationSys.API.EndPoints.Classes
 {
-    public class GetAllClassesEndPoint:Endpoint<QueryParams,ApiResponse<PageList<ClassDto>>>
+    public class GetAllClassesEndPoint : EndpointWithoutRequest<ApiResponse<PageList<ClassDto>>>
     {
         private readonly IClassService _classService;
 
@@ -19,14 +21,22 @@ namespace EducationSys.API.EndPoints.Classes
         {
             Get("/classes");
             AllowAnonymous();
-
         }
-        public override async Task HandleAsync(QueryParams req, CancellationToken ct)
+
+        public override async Task HandleAsync(CancellationToken ct)
         {
+            var queryParams = new QueryParams
+            {
+                SearchTerm = Query<string?>("SearchTerm", isRequired: false),
+                PageNumber = Query<int>("PageNumber", isRequired: false),
+                PageSize = Query<int>("PageSize", isRequired: false)
+            };
 
-            var result = _classService.GetAllClassesAsync(req);
+            if (queryParams.PageNumber <= 0) queryParams.PageNumber = 1;
+            if (queryParams.PageSize <= 0) queryParams.PageSize = 10;
 
-            await Send.OkAsync(result, cancellation: ct);
+            var result = await _classService.GetAllClassesAsync(queryParams);
+            await Send.OkAsync(result, ct);
         }
     }
 }

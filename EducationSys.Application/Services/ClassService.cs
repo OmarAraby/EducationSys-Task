@@ -62,7 +62,7 @@ namespace EducationSys.Application.Services
             return ApiResponse.SuccessResponse("Class deleted successfully.");
         }
 
-        public ApiResponse<PageList<ClassDto>> GetAllClassesAsync(QueryParams queryParams)
+        public async Task<ApiResponse<PageList<ClassDto>>> GetAllClassesAsync(QueryParams queryParams) 
         {
             var allClasses = _classRepository.GetAll();
 
@@ -91,7 +91,6 @@ namespace EducationSys.Application.Services
             var pageList = new PageList<ClassDto>(pagedItems, totalCount, queryParams.PageNumber, queryParams.PageSize);
 
             return ApiResponse<PageList<ClassDto>>.SuccessResponse(pageList, "Classes retrieved successfully.");
-
         }
 
         public ApiResponse<ClassDto> GetClassByIdAsync(int id)

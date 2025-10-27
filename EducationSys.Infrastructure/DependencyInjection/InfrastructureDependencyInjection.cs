@@ -10,7 +10,9 @@ namespace EducationSys.Infrastructure.DependencyInjection
         {
             services.AddSingleton<IStudentRepository,StudentRepository >();
             services.AddSingleton<IClassRepository,ClassRepository >();
-            
+            services.AddSingleton<IMarkRepository,MarkRepository >();
+            services.AddSingleton<IEnrollmentRepository, EnrollmentRepository>();
+
 
 
 
