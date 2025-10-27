@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Class\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EducationSys.Domain\EducationSys.Domain.csproj" />
   </ItemGroup>
 

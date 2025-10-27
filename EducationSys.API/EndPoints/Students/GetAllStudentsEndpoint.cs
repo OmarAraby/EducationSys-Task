@@ -6,11 +6,12 @@ using FastEndpoints;
 
 namespace EducationSys.API.EndPoints.Students
 {
-    public class GetAllStudentsEndpoint : EndpointWithoutRequest<ApiResponse<PageList<StudentDto>>>
+    // 1. العودة إلى استخدام QueryParams كـ Request DTO
+    public class GetAllStudentsEndpoint : Endpoint<QueryParams, ApiResponse<PageList<StudentDto>>>
     {
         private readonly IStudentService _studentService;
 
-        public GetAllStudentsEndpoint(IStudentService studentService)
+        public GetAllStudentsEndpoint(IStudentService studentService) 
         {
             _studentService = studentService;
         }
@@ -19,19 +20,14 @@ namespace EducationSys.API.EndPoints.Students
         {
             Get("/students");
             AllowAnonymous();
+            
         }
 
-        public override async Task HandleAsync(CancellationToken ct)
-        {
-            var queryParams = new QueryParams
-            {
-                PageNumber = Query<int>("pageNumber", 1),
-                PageSize = Query<int>("pageSize", 10),
-                SearchTerm = Query<string?>("searchTerm", null)
-            };
+        public override async Task HandleAsync(QueryParams req, CancellationToken ct) { 
+         
+            var result =  _studentService.GetAllStudentsAsync(req); 
 
-            var result = _studentService.GetAllStudentsAsync(queryParams);
-            await SendOkAsync(result, ct);
+            await Send.OkAsync(result, cancellation: ct); 
         }
     }
 }
