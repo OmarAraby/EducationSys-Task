@@ -6,7 +6,6 @@ using FastEndpoints;
 
 namespace EducationSys.API.EndPoints.Students
 {
-    // 1. العودة إلى استخدام QueryParams كـ Request DTO
     public class GetAllStudentsEndpoint : Endpoint<QueryParams, ApiResponse<PageList<StudentDto>>>
     {
         private readonly IStudentService _studentService;

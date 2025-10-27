@@ -10,7 +10,9 @@ namespace EducationSys.Application.DependencyInjection
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IStudentService, StudentService>();
-        
+            services.AddScoped<IClassService, ClassService>();
+
+
 
 
             // validations
